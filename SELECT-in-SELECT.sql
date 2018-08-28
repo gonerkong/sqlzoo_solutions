@@ -6,8 +6,7 @@ List each country name where the population is larger than that of 'Russia'.
 */
 SELECT name
 FROM world
-WHERE
-	population > (
+WHERE population > (
 		SELECT population
 		FROM world
 		WHERE name = 'Russia'
@@ -41,8 +40,7 @@ Order by name of the country.
 */
 SELECT name, continent
 FROM world
-WHERE
-	continent IN (
+WHERE continent IN (
 		SELECT continent
 		FROM world
 		WHERE name IN ('Argentina', 'Australia')
@@ -59,8 +57,7 @@ Which country has a population that is more than Canada but less than Poland? Sh
 */
 SELECT name, population
 FROM world
-WHERE
-	population > (
+WHERE population > (
 		SELECT population
 		FROM world
 		WHERE name = 'Canada'
@@ -95,7 +92,11 @@ Which countries have a GDP greater than every country in Europe? [Give the name 
 */
 SELECT name
 FROM world
-WHERE gdp > ALL(SELECT gdp FROM world WHERE gdp > 0 AND continent = 'Europe')
+WHERE gdp > ALL(
+	SELECT gdp 
+	FROM world 
+	WHERE gdp > 0 AND continent = 'Europe'
+	)
 
 
 
@@ -107,8 +108,7 @@ Find the largest country (by area) in each continent, show the continent, the na
 */
 SELECT continent, name, area
 FROM world w1
-WHERE
-	area >= ALL (
+WHERE area >= ALL (
 		SELECT area
 		FROM world w2
 		WHERE w1.continent = w2.continent
@@ -125,8 +125,7 @@ List each continent and the name of the country that comes first alphabetically.
 */
 SELECT continent, name
 FROM world w1
-WHERE
-	name <= ALL (
+WHERE name <= ALL (
 		SELECT name
 		FROM world w2
 		WHERE w1.continent = w2.continent
@@ -145,10 +144,10 @@ Show name, continent and population.
 SELECT name, continent, population
 FROM world w1
 WHERE continent IN (SELECT continent
-                    			 FROM world w2 
-                    			 WHERE 25000000 >= ALL(SELECT population 
-                                          			 FROM world w3
-                                         				 WHERE w2.continent = w3.continent AND population >0))
+                    FROM world w2 
+                    WHERE 25000000 >= ALL(SELECT population 
+                                          FROM world w3
+                                          WHERE w2.continent = w3.continent AND population >0))
 
 
 
